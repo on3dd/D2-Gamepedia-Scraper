@@ -30,8 +30,13 @@ func main() {
 	c := colly.NewCollector(
 		colly.AllowedDomains("dota2.gamepedia.com"))
 
+	r := &Response{
+		Header:     "Pudge",
+		Categories: make([]*Category, 0)}
+
 	c.OnHTML("h2 > span[class=mw-headline]", func(e *colly.HTMLElement) {
-		getResponses(e)
+		ct := getResponses(e)
+		r.Categories = append(r.Categories, ct)
 	})
 
 	err := c.Visit("https://dota2.gamepedia.com/Pudge/Responses")
@@ -41,17 +46,13 @@ func main() {
 }
 
 // Get the heroes responses from selection
-func getResponses(e *colly.HTMLElement) {
-	r := &Response{
-		Header:     "Pudge",
-		Categories: make([]*Category, 0)}
-
-	r.Categories = append(r.Categories, &Category{
-		Header:        "- " + e.Text,
-		Subcategories: make([]*Subcategory, 0)})
+func getResponses(e *colly.HTMLElement) *Category {
+	ct := &Category{
+		Header:        e.Text,
+		Subcategories: make([]*Subcategory, 0)}
 
 	// Print category header
-	fmt.Println(r.Categories[0].Header)
+	fmt.Println("- " + ct.Header)
 
 	el := e.DOM.Parent().Next()
 
@@ -71,45 +72,47 @@ func getResponses(e *colly.HTMLElement) {
 				}
 
 				// Get the num of the subcategories
-				subCategoriesNum := len(r.Categories[0].Subcategories)
+				subCategoriesNum := len(ct.Subcategories)
 
 				// Put new subcategory in a category
-				r.Categories[0].Subcategories = append(r.Categories[0].Subcategories, &Subcategory{
-					Header: "-- " + text,
+				ct.Subcategories = append(ct.Subcategories, &Subcategory{
+					Header: text,
 					Links:  make([]*Link, 0)})
 
-				fmt.Println(r.Categories[0].Subcategories[subCategoriesNum].Header)
+				fmt.Println("-- " + ct.Subcategories[subCategoriesNum].Header)
 			}
 		} else {
 			// Iteratively go through "li" nodes
 			for _, item := range el.Find("li").Nodes {
 				// Get the text value of element
-				text := "---" + item.LastChild.Data
+				text := item.LastChild.Data
 
 				// Fix possible problems
-				if text == "---i" || text == "---b" {
-					text = "--- " + item.LastChild.FirstChild.Data
-				} else if text == "---!" {
-					text = "--- Shitty wizard!"
+				if text == "i" || text == "b" {
+					text = item.LastChild.FirstChild.Data
+				} else if text == "!" {
+					text = "Shitty wizard!"
+				} else {
+					text = strings.Join(strings.Split(text, "")[1:], "")
 				}
 
 				// Get the link from attr value from span > audio > source
 				link := item.FirstChild.FirstChild.FirstChild.Attr[0].Val
 
 				// Get the num of subcategories in the category
-				subCategoriesNum := len(r.Categories[0].Subcategories)
+				subCategoriesNum := len(ct.Subcategories)
 
 				// If there is no subcategories in category
 				// then put a default subcategory
 				if subCategoriesNum == 0 {
-					r.Categories[0].Subcategories = append(r.Categories[0].Subcategories, &Subcategory{
+					ct.Subcategories = append(ct.Subcategories, &Subcategory{
 						Header: "default header",
 						Links:  make([]*Link, 0),
 					})
 					subCategoriesNum = 1
 				}
 
-				sb := r.Categories[0].Subcategories[subCategoriesNum-1]
+				sb := ct.Subcategories[subCategoriesNum-1]
 
 				// Get the num of the links in the subcategory
 				linksNum := len(sb.Links)
@@ -120,10 +123,11 @@ func getResponses(e *colly.HTMLElement) {
 					Link:  link,
 				})
 
-				fmt.Println(sb.Links[linksNum].Title, sb.Links[linksNum].Link)
+				fmt.Println("--- "+sb.Links[linksNum].Title, sb.Links[linksNum].Link)
 			}
 		}
 		el = el.Next()
 	}
 	fmt.Println()
+	return ct
 }
