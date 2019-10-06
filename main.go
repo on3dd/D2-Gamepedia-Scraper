@@ -14,6 +14,9 @@ var (
 	port string = "8080"
 )
 
+// TODO: Fix the bug with Lina and Crystal Maiden audio playback
+// TODO: Add 404 page
+
 func main() {
 	r := mux.NewRouter()
 
