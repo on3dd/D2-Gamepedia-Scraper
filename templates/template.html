@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <style>
+        body {
+            font-size: 16px;
+            margin-top: 3rem;
+        }
+        li {
+            list-style: none;
+        }
+        .category {
+            margin-bottom: 1rem;
+        }
+        .category .subcategory {
+            margin-bottom: .5rem;
+        }
+        .category .subcategory a {
+            font-size: 1rem;
+            margin-bottom: .1rem;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>{{ .Header }}</h1>
+    <ul class="categories">
+        {{ range .Categories }}
+            <li class="category">
+                <h2>{{ .Header }}</h2>
+                {{ $el := index .Subcategories 0 }}
+                {{ if ne $el.Header "default header" }}
+                    <ul class="subcategories">
+                        {{ range .Subcategories }}
+                            <li class="subcategory">
+                                {{ if ne .Header "default header" }}
+                                    <h4>{{ .Header }}</h4>
+                                {{ end }}
+                                <ul class="links">
+                                    {{ range .Links }}
+                                        <li class="link">
+                                            <a href="{{ .Link }}">{{ .Title }}</a>
+                                        </li>
+                                    {{ end }}
+                                </ul>
+                            </li>
+                        {{ end }}
+                    </ul>
+                {{ else }}
+                    {{ range .Subcategories }}
+                        <ul class="links">
+                            {{ range .Links }}
+                                <li class="link">
+                                    <a href="{{ .Link }}">{{ .Title }}</a>
+                                </li>
+                            {{ end }}
+                        </ul>
+                    {{ end }}
+                {{ end }}
+            </li>
+        {{ end }}
+    </ul>
+</div>
+</body>
+</html>
