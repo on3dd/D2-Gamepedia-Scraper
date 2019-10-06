@@ -30,6 +30,16 @@
             font-size: 1rem;
             margin-bottom: .1rem;
         }
+        .audiobtn {
+            cursor: pointer;
+        }
+        .link span {
+            color: inherit;
+            transition: .1s color ease-out;
+        }
+        .link span:hover {
+            color: #0645ad;
+        }
     </style>
 </head>
 <body>
@@ -50,7 +60,12 @@
                                 <ul class="links">
                                     {{ range .Links }}
                                         <li class="link">
-                                            <a href="{{ .Link }}">{{ .Title }}</a>
+                                            <audio hidden>
+                                                <source src="{{ .Link }}" type="audio/mpeg">
+                                            </audio>
+                                            <span>
+                                                <a class="audiobtn" title="Play/pause">▶️ {{ .Title }}</a>
+                                            </span>
                                         </li>
                                     {{ end }}
                                 </ul>
@@ -62,7 +77,12 @@
                         <ul class="links">
                             {{ range .Links }}
                                 <li class="link">
-                                    <a href="{{ .Link }}">{{ .Title }}</a>
+                                    <audio hidden>
+                                        <source src="{{ .Link }}" type="audio/mpeg">
+                                    </audio>
+                                    <span>
+                                        <a class="audiobtn" title="Play/pause">▶️ {{ .Title }}</a>
+                                    </span>
                                 </li>
                             {{ end }}
                         </ul>
@@ -72,5 +92,21 @@
         {{ end }}
     </ul>
 </div>
+
+
+<script lang="javascript">
+    window.onload = function () {
+        let playBtns = document.getElementsByClassName("audiobtn");
+        let audioSrcs = document.getElementsByTagName("audio");
+
+        for (let i = 0; i < playBtns.length; i++) {
+            playBtns[i].addEventListener("click", () => {
+                let audio = audioSrcs[i];
+                if (audio.paused || audio.ended) audio.play();
+                else audio.pause();
+            });
+        }
+    }
+</script>
 </body>
 </html>

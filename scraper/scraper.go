@@ -47,7 +47,7 @@ func Scrap(heroName string) *Response {
 	url := "https://dota2.gamepedia.com/" + heroName + "/Responses"
 	err := c.Visit(url)
 	if err != nil {
-		panic(err)
+		panic("Error: " + err.Error())
 	}
 
 	return resp
@@ -56,7 +56,7 @@ func Scrap(heroName string) *Response {
 // Get the heroes replicas from selection
 func getResponses(e *colly.HTMLElement) *Category {
 	if e.Text == "Rylai's Battle Blessing" {
-		return nil
+		return &Category{}
 	}
 
 	ct := &Category{
@@ -81,6 +81,10 @@ func getResponses(e *colly.HTMLElement) *Category {
 				// If first letter is whitespace delete it
 				if strings.Split(text, "")[0] == " " {
 					text = strings.Join(strings.Split(text, "")[1:], "")
+				}
+
+				if text == "Aghanim's Scepter" {
+					el = el.Next().Next()
 				}
 
 				// Get the num of the subcategories
