@@ -1,6 +1,5 @@
 # D2-Gamepedia-Scraper
-Scraper of heroes responses from dota2.gamepedia.com
-
+Grabs the heroes responses from dota2.gamepedia.com and outputs them in a browser
 # Usage
 ## Start 
 Type the following code in the terminal:
