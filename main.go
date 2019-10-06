@@ -30,5 +30,5 @@ func HeroHandler(w http.ResponseWriter, r *http.Request) {
 	tmpl := template.Must(template.ParseFiles("templates/template.html"))
 	resp := scraper.Scrap(vars["name"])
 
-	defer tmpl.Execute(w, resp)
+	tmpl.Execute(w, resp)
 }

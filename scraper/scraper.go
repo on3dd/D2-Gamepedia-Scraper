@@ -1,7 +1,6 @@
 package scraper
 
 import (
-	_ "encoding/json"
 	"fmt"
 	"github.com/gocolly/colly"
 	"strings"
@@ -32,17 +31,10 @@ func Scrap(heroName string) *Response {
 	c := colly.NewCollector(
 		colly.AllowedDomains("dota2.gamepedia.com"))
 
+	heroName = strings.Replace(heroName, "_", " ", -1)
 	resp := &Response{
 		Header:     heroName,
 		Categories: make([]*Category, 0)}
-
-	//defer func() {
-	//	b, err := json.Marshal(resp)
-	//	if err != err {
-	//		panic(err)
-	//	}
-	//	fmt.Println(string(b))
-	//}()
 
 	c.OnHTML("h2 > span[class=mw-headline]", func(e *colly.HTMLElement) {
 		// Get the category instance and append it to response
@@ -63,6 +55,10 @@ func Scrap(heroName string) *Response {
 
 // Get the heroes replicas from selection
 func getResponses(e *colly.HTMLElement) *Category {
+	if e.Text == "Rylai's Battle Blessing" {
+		return nil
+	}
+
 	ct := &Category{
 		Header:        e.Text,
 		Subcategories: make([]*Subcategory, 0)}
