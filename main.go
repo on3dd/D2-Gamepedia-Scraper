@@ -7,6 +7,7 @@ import (
 	"html/template"
 	"log"
 	"net/http"
+	"time"
 )
 
 var (
@@ -18,14 +19,13 @@ func main() {
 
 	r.HandleFunc("/heroes/{name}", HeroHandler)
 
-	fmt.Printf("Server successfully started at port %v...\n", port)
+	fmt.Printf("%v: Server successfully started at port %v...\n", time.Now().Format(time.UnixDate), port)
 	log.Fatal(http.ListenAndServe(":"+port, r))
 }
 
 func HeroHandler(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
-	fmt.Printf("Got a request for %v...\n", vars["name"])
-	//fmt.Fprintf(w, "Hero: %v\n", vars["name"])
+	fmt.Printf("%v: Got a request for %v...\n", time.Now().Format(time.UnixDate),  vars["name"])
 
 	tmpl := template.Must(template.ParseFiles("templates/template.html"))
 	resp := scraper.Scrap(vars["name"])

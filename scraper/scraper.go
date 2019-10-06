@@ -1,7 +1,7 @@
 package scraper
 
 import (
-	"fmt"
+	_ "fmt"
 	"github.com/gocolly/colly"
 	"strings"
 )
@@ -64,7 +64,7 @@ func getResponses(e *colly.HTMLElement) *Category {
 		Subcategories: make([]*Subcategory, 0)}
 
 	// Print category header
-	fmt.Println("- " + ct.Header)
+	//fmt.Println("- " + ct.Header)
 
 	el := e.DOM.Parent().Next()
 
@@ -88,14 +88,14 @@ func getResponses(e *colly.HTMLElement) *Category {
 				}
 
 				// Get the num of the subcategories
-				subCategoriesNum := len(ct.Subcategories)
+				//subCategoriesNum := len(ct.Subcategories)
 
 				// Put new subcategory in a category
 				ct.Subcategories = append(ct.Subcategories, &Subcategory{
 					Header: text,
 					Links:  make([]*Link, 0)})
 
-				fmt.Println("-- " + ct.Subcategories[subCategoriesNum].Header)
+				//fmt.Println("-- " + ct.Subcategories[subCategoriesNum].Header)
 			}
 		} else {
 			// Iteratively go through "li" nodes
@@ -131,7 +131,7 @@ func getResponses(e *colly.HTMLElement) *Category {
 				sb := ct.Subcategories[subCategoriesNum-1]
 
 				// Get the num of the links in the subcategory
-				linksNum := len(sb.Links)
+				//linksNum := len(sb.Links)
 
 				// Put the new link in a subcategory
 				sb.Links = append(sb.Links, &Link{
@@ -139,11 +139,11 @@ func getResponses(e *colly.HTMLElement) *Category {
 					Link:  link,
 				})
 
-				fmt.Println("--- "+sb.Links[linksNum].Title, sb.Links[linksNum].Link)
+				//fmt.Println("--- "+sb.Links[linksNum].Title, sb.Links[linksNum].Link)
 			}
 		}
 		el = el.Next()
 	}
-	fmt.Println()
+	//fmt.Println()
 	return ct
 }
