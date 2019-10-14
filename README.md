@@ -1,5 +1,5 @@
 # D2-Gamepedia-Scraper
-Grabs the heroes responses from dota2.gamepedia.com and outputs them in a browser
+Grabs the heroes responses from [dota2.gamepedia.com](https://dota2.gamepedia.com) and outputs them in a browser
 ![Preview](https://i.imgur.com/Hl6dKc7.png)
 # Usage
 ## Start 
