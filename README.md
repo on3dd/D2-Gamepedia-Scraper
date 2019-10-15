@@ -15,5 +15,4 @@ Type `http://localhost:8080/heroes/{Hero}` in browsers adress bar, where *{Hero}
 
 ## TODO's:
 - [ ] Fix the bug with Lina and Crystal Maiden audio playback
-- [ ] Add a 404 page
 - [ ] Add an exception for pages with the broken audios

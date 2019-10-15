@@ -15,22 +15,22 @@ var (
 )
 
 // TODO: Fix the bug with Lina and Crystal Maiden audio playback
-// TODO: Add 404 page
 // TODO: Add an exception for pages with the broken audios
 
 func main() {
 	r := mux.NewRouter()
 
-	r.HandleFunc("/", homeHandler)
 	r.HandleFunc("/heroes/{name}", heroHandler)
+	r.Handle("/", http.FileServer(http.Dir("client")))
+	r.PathPrefix("/css/").Handler(http.StripPrefix("/css/",
+		http.FileServer(http.Dir("client/css/"))))
+	r.PathPrefix("/js/").Handler(http.StripPrefix("/js/",
+		http.FileServer(http.Dir("client/js/"))))
+
 	r.NotFoundHandler = http.HandlerFunc(notFoundHandler)
 
 	fmt.Printf("%v: Server successfully started at port %v...\n", time.Now().Format(time.UnixDate), port)
 	log.Fatal(http.ListenAndServe(":"+port, r))
-}
-
-func homeHandler(w http.ResponseWriter, r *http.Request) {
-
 }
 
 func heroHandler(w http.ResponseWriter, r *http.Request) {
@@ -44,8 +44,8 @@ func heroHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func notFoundHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Printf("%v: Got invalid page request.\n", time.Now().Format(time.UnixDate))
+	fmt.Printf("%v: Got invalid page request for %v.\n", time.Now().Format(time.UnixDate), r.URL.Path)
 
-	tmpl := template.Must(template.ParseFiles("templates/404.html"))
+	tmpl := template.Must(template.ParseFiles("client/404/index.html"))
 	tmpl.Execute(w, nil)
 }

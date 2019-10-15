@@ -1,0 +1,26 @@
+body {
+    font-size: 16px;
+}
+li {
+    list-style: none;
+}
+.category {
+    margin-bottom: 1rem;
+}
+.category .subcategory {
+    margin-bottom: .5rem;
+}
+.category .subcategory a {
+    font-size: 1rem;
+    margin-bottom: .1rem;
+}
+.audiobtn {
+    cursor: pointer;
+}
+.link span {
+    color: inherit;
+    transition: .1s color ease-out;
+}
+.link span:hover {
+    color: #0645ad;
+}
