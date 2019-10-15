@@ -31,7 +31,7 @@ func Scrap(heroName string) *Response {
 	c := colly.NewCollector(
 		colly.AllowedDomains("dota2.gamepedia.com"))
 
-	heroName = strings.Replace(heroName, "_", " ", -1)
+	heroName = strings.Title(strings.ToLower(strings.Replace(heroName, "_", " ", -1)))
 	resp := &Response{
 		Header:     heroName,
 		Categories: make([]*Category, 0)}
