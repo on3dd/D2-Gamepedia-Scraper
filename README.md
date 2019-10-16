@@ -2,6 +2,11 @@
 Grabs the heroes responses from [dota2.gamepedia.com](https://dota2.gamepedia.com) and outputs them in a browser
 ![Preview](https://i.imgur.com/Hl6dKc7.png)
 # Usage
+## Install
+Make sure Golang is already installed on your PC.
+
+Clone this repository and install all required dependencies.
+
 ## Start 
 Type the following code in the terminal:
 ```
