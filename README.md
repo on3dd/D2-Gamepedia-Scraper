@@ -13,6 +13,8 @@ Type the following code in the terminal:
 go run main.go
 ```
 
+Then open a browser and go to `http://localhost:8080/`.
+
 ## Get results
 Type `http://localhost:8080/heroes/{Hero}` in browsers adress bar, where *{Hero}* - some hero name. 
 
