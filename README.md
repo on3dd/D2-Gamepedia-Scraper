@@ -18,8 +18,6 @@ Then open a browser and go to `http://localhost:8080/`.
 ## Get results
 Type `http://localhost:8080/heroes/{Hero}` in browsers adress bar, where *{Hero}* - some hero name. 
 
-**Note that hero name must start with a capital letter, and all the whitespaces should be replaced by underscores.**
-
-## TODO's:
+## TODO:
 - [ ] Fix the bug with Lina and Crystal Maiden audio playback
 - [ ] Add an exception for pages with the broken audios
