@@ -3,7 +3,7 @@ Grabs the heroes responses from [dota2.gamepedia.com](https://dota2.gamepedia.co
 ![Preview](https://i.imgur.com/Hl6dKc7.png)
 # Usage
 ## Install
-Make sure Golang is already installed on your PC.
+Make sure Go is already installed on your PC.
 
 Clone this repository and install all required dependencies.
 
